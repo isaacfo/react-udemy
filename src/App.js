@@ -1,6 +1,7 @@
 import React, { Component } from 'react'; 
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person'; 
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 // have to import styleroot so tranforming i.e. media quieries work
 // import Radium, {StyleRoot} from 'radium';
 
@@ -66,69 +67,71 @@ togglePersonsHandler= () => {
 
 
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '8px',
-      cursor: 'pointer',
-      // its not a valid js properties name cuz of colon, as strings they are valid. css sudo selector enabled by Radium
-      // ':hover': {
-      //   backgroundColor:'lightgreen',
-      //   color: 'black'
-      // }
-    };
+    
+    
+    // const style = {
+    //   backgroundColor: 'green',
+    //   color: 'white',
+    //   font: 'inherit',
+    //   border: '1px solid blue',
+    //   padding: '8px',
+    //   cursor: 'pointer',
+    //   // its not a valid js properties name cuz of colon, as strings they are valid. css sudo selector enabled by Radium
+    //   // ':hover': {
+    //   //   backgroundColor:'lightgreen',
+    //   //   color: 'black'
+    //   // }
+    // };
 
     let persons = null;
+    let btnClass = '';
+
 
     if(this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
-            return <Person 
+            
+// Now with that person wrapped with error boundary, we also have to move the key here to the error boundary
+// because this is now the outer element which we map and the key always has to be on the outer element
+//ErrorBoundary is a higher order component 
+            return <ErrorBoundary key={person.id}>
+              <Person 
             click={() => this.deletePersonHandler(index)}
             name={person.name} 
             age ={person.age}
-            key={person.id}
+            
             changed={(event) => this.nameChangedHandler(event, person.id)}/>
+            </ErrorBoundary>
           })}
         
       </div> 
 
       );
     
-    // over riding the style set before this. this is called scope styles
-    // when the persons tabs show, the toogle people person button changes red versus the standard green. Dynamic styling
-     style.backgroundColor ='red';
-    //  had to put square brackets cuz hover was a string in style
-     style[':hover'] ={
-       backgroundColor: 'salmon',
-       color: 'black'
-
-     }
-
-        }
+      btnClass = classes.Red;
+   }
         // css class list
         // will change this is working text based on criteria below
-        let classes = [];
+        const assignedClasses= [];
         if(this.state.persons.length <= 2) {
-          classes.push('red'); // classes = ['red'] 
+          assignedClasses.push(classes.red); // classes = ['red'] 
         }
         if(this.state.persons.length <= 1) {
-          classes.push('bold'); // classes = ['red', 'bold']
+          assignedClasses.push(classes.bold); // classes = ['red', 'bold']
         }
 
 
 
     return (
       // <StyleRoot>
-    <div className="App">
+    <div className={classes.App}>
        <h1>Hi, I'm a React App</h1>
        {/* .join is used cuz classes is set to an empty array before being used here and css class list cant work without having something in the array */}
-       <p className={classes.join(' ')}> This is really working!</p>
+       <p className={assignedClasses.join(' ')}> This is really working!</p>
        <button
-        style={style} 
+       className={btnClass}
+        
         onClick={this.togglePersonsHandler}>Toggle Persons </button>
        {persons}
     </div>
