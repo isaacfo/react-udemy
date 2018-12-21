@@ -1,5 +1,5 @@
 import React from 'react';
-import Radium from 'radium';
+// import Radium from 'radium';
 import './Person.css'
 
 
@@ -7,9 +7,9 @@ import './Person.css'
 const person = (props) => {
     const style ={
         // acceptable cuz its a string, understood cuz of radium
-        '@media (min-width: 500px)': {
+        // '@media (min-width: 500px)': {
             // fixed width
-            width: '450px'
+            // width: '450px'
         }
     };
 
@@ -25,4 +25,4 @@ const person = (props) => {
 };
 
 
-export default Radium(person);
+export default person;

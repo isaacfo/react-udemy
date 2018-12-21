@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person'; 
 // have to import styleroot so tranforming i.e. media quieries work
-import Radium, {StyleRoot} from 'radium';
+// import Radium, {StyleRoot} from 'radium';
 
 class App extends Component {
   state = {
@@ -74,10 +74,10 @@ togglePersonsHandler= () => {
       padding: '8px',
       cursor: 'pointer',
       // its not a valid js properties name cuz of colon, as strings they are valid. css sudo selector enabled by Radium
-      ':hover': {
-        backgroundColor:'lightgreen',
-        color: 'black'
-      }
+      // ':hover': {
+      //   backgroundColor:'lightgreen',
+      //   color: 'black'
+      // }
     };
 
     let persons = null;
@@ -122,7 +122,7 @@ togglePersonsHandler= () => {
 
 
     return (
-      <StyleRoot>
+      // <StyleRoot>
     <div className="App">
        <h1>Hi, I'm a React App</h1>
        {/* .join is used cuz classes is set to an empty array before being used here and css class list cant work without having something in the array */}
@@ -132,11 +132,11 @@ togglePersonsHandler= () => {
         onClick={this.togglePersonsHandler}>Toggle Persons </button>
        {persons}
     </div>
-    </StyleRoot>
+    // </StyleRoot>
     );
   }
 }
 
 
 // higher order component, injecting more functionality into the app.js by wrapping it in Radium. Radium is about styling, allows css sudo selectors and medio queiries
-export default Radium(App);
+export default App;
